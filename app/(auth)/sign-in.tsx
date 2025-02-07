@@ -1,7 +1,9 @@
 import { useSignIn } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
-import { Text, TextInput, Button, View } from "react-native";
+import { Text, TextInput, Button, View, ImageBackground } from "react-native";
 import React from "react";
+
+const background = { uri: "https://legacy.reactjs.org/logo-og.png" };
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -39,26 +41,39 @@ export default function Page() {
   }, [isLoaded, emailAddress, password]);
 
   return (
-    <View>
-      <TextInput
-        autoCapitalize="none"
-        value={emailAddress}
-        placeholder="Enter email"
-        onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
-      />
-      <TextInput
-        value={password}
-        placeholder="Enter password"
-        secureTextEntry={true}
-        onChangeText={(password) => setPassword(password)}
-      />
-      <Button title="Sign in" onPress={onSignInPress} />
-      <View>
-        <Text>Don't have an account?</Text>
-        <Link href="/sign-up">
-          <Text>Sign up</Text>
-        </Link>
+    <ImageBackground source={background} resizeMode="cover" style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "auto",
+          maxHeight: "30%",
+          backgroundColor: "rgba(0,0,0,0.5)",
+        }}
+      >
+        <TextInput
+          autoCapitalize="none"
+          value={emailAddress}
+          placeholder="Enter email"
+          onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+        />
+        <TextInput
+          value={password}
+          placeholder="Enter password"
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+        />
+        <Button title="Sign in" onPress={onSignInPress} />
+        <View>
+          <Text>
+            New to FlashAlarm? &nbsp;
+            <Link href="/sign-up">
+              <Text>Sign up</Text>
+            </Link>
+          </Text>
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
