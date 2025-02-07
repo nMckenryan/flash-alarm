@@ -3,8 +3,6 @@ import { Link, useRouter } from "expo-router";
 import { Text, TextInput, Button, View, ImageBackground } from "react-native";
 import React from "react";
 
-const background = { uri: "https://legacy.reactjs.org/logo-og.png" };
-
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn();
   const router = useRouter();
@@ -41,37 +39,30 @@ export default function Page() {
   }, [isLoaded, emailAddress, password]);
 
   return (
-    <ImageBackground source={background} resizeMode="cover" style={{ flex: 1 }}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          margin: "auto",
-          maxHeight: "30%",
-          backgroundColor: "rgba(0,0,0,0.5)",
-        }}
-      >
+    <ImageBackground
+      source={require("../../assets/images/sunrise.png")}
+      imageStyle={{ resizeMode: "cover" }}
+      className="flex-1"
+    >
+      <View className="rounded-lg items-center justify-center my-auto mx-auto bg-slate-600 bg-opacity-70 p-5 gap-3 ">
+        <Text className="text-xl font-bold">FlashAlarm</Text>
         <TextInput
+          className="text-xl p-2"
           autoCapitalize="none"
           value={emailAddress}
           placeholder="Enter email"
           onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
         />
         <TextInput
+          className="text-xl p-2"
           value={password}
           placeholder="Enter password"
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
         />
-        <Button title="Sign in" onPress={onSignInPress} />
-        <View>
-          <Text>
-            New to FlashAlarm? &nbsp;
-            <Link href="/sign-up">
-              <Text>Sign up</Text>
-            </Link>
-          </Text>
+        <View className="flex flex-row gap-5">
+          <Button color={"green"} title="Register" onPress={onSignInPress} />
+          <Button title="Sign in" onPress={() => router.navigate("/sign-up")} />
         </View>
       </View>
     </ImageBackground>
