@@ -30,8 +30,6 @@ export default function SignUpScreen() {
     }
   };
 
-  const navigation = useNavigation();
-
   return (
     <>
       <Text className="text-xl text-white font-bold">Sign up</Text>

@@ -1,5 +1,6 @@
 import { Slot } from "expo-router";
 import { ImageBackground, View, Image, Text } from "react-native";
+import Window from "../components/window";
 
 export default function AuthRoutesLayout() {
   return (
@@ -8,15 +9,14 @@ export default function AuthRoutesLayout() {
       imageStyle={{ resizeMode: "cover" }}
       className="flex-1"
     >
-      <View className="rounded-lg items-center justify-center my-auto mx-auto bg-neutral shadow-accent bg-opacity-70 p-5 gap-3 w-[75%]">
-        <>
-          <Image
-            source={require("../../assets/images/apple-touch-icon.png")}
-            className="w-32 h-32"
-          />
-        </>
+      <Window>
+        <Image
+          source={require("../../assets/images/apple-touch-icon.png")}
+          className="w-32 h-32"
+        />
+
         <Slot />
-      </View>
+      </Window>
     </ImageBackground>
   );
 }
