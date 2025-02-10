@@ -6,10 +6,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 ## TODO:
 
-- [ ] Set up basic UI
-- [ ] Mock up UI
-- [ ] Create logo
-- [ ] Set up basic AUTH functionality
+- [x] Set up basic UI
+- [x] Mock up UI
+- [x] Create logo
+- [x] Set up basic AUTH functionality
+   - [ ] Test auth
 - [ ] Set up basic database
    - Table FlashCards
       - id
@@ -18,7 +19,6 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
       - correct answers [int]
       - incorrect answers [int]
       - Date created [date]
-      - manually skip [bool]
       - group [Group]
 - [ ] Set up basic Alarm functionality
 - [ ] Set up flashcard CRUD

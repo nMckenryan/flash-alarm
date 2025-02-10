@@ -1,4 +1,4 @@
-const testGroup: CardGroup = {
+export const testGroup: CardGroup = {
   groupId: 1,
   name: "Test Group",
   flashCards: [
@@ -20,7 +20,7 @@ export const testData: AlarmData[] = [
     time: new Date(new Date().toISOString().substr(0, 10) + "T09:00:00.000Z"),
     days: ["MTWTFSS"],
     group: testGroup,
-    enabled: false,
+    enabled: true,
   },
 ];
 
