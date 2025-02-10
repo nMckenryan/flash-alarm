@@ -22,3 +22,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
       - group [Group]
 - [ ] Set up basic Alarm functionality
 - [ ] Set up flashcard CRUD
+
+
+## ATTRIBUTIONS
+- Mansha Graphics https://www.flaticon.com/authors/manshagraphics

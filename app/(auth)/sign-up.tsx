@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Text, TextInput, Button, View } from "react-native";
-import { useSignUp } from "@clerk/clerk-expo";
-import { useRouter } from "expo-router";
+import { isClerkAPIResponseError, useSignUp } from "@clerk/clerk-expo";
+import { useNavigation } from "@react-navigation/native";
+import { ClerkAPIError } from "@clerk/types";
+import { Link } from "expo-router";
 
 export default function SignUpScreen() {
-  const { isLoaded, signUp, setActive } = useSignUp();
-  const router = useRouter();
+  const { isLoaded, signUp } = useSignUp();
 
   const [emailAddress, setEmailAddress] = React.useState("");
+  const [errors, setErrors] = React.useState<ClerkAPIError[]>([]);
   const [password, setPassword] = React.useState("");
-  const [pendingVerification, setPendingVerification] = React.useState(false);
-  const [code, setCode] = React.useState("");
 
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
@@ -22,79 +22,58 @@ export default function SignUpScreen() {
         emailAddress,
         password,
       });
-
-      // Send user an email with verification code
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-
-      // Set 'pendingVerification' to true to display second form
-      // and capture OTP code
-      setPendingVerification(true);
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
+      if (isClerkAPIResponseError(err)) setErrors(err.errors);
       console.error(JSON.stringify(err, null, 2));
     }
   };
 
-  // Handle submission of verification form
-  const onVerifyPress = async () => {
-    if (!isLoaded) return;
-
-    try {
-      // Use the code the user provided to attempt verification
-      const signUpAttempt = await signUp.attemptEmailAddressVerification({
-        code,
-      });
-
-      // If verification was completed, set the session to active
-      // and redirect the user
-      if (signUpAttempt.status === "complete") {
-        await setActive({ session: signUpAttempt.createdSessionId });
-        router.replace("/");
-      } else {
-        // If the status is not complete, check why. User may need to
-        // complete further steps.
-        console.error(JSON.stringify(signUpAttempt, null, 2));
-      }
-    } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
-      console.error(JSON.stringify(err, null, 2));
-    }
-  };
-
-  if (pendingVerification) {
-    return (
-      <>
-        <Text>Verify your email</Text>
-        <TextInput
-          value={code}
-          placeholder="Enter your verification code"
-          onChangeText={(code) => setCode(code)}
-        />
-        <Button title="Verify" onPress={onVerifyPress} />
-      </>
-    );
-  }
+  const navigation = useNavigation();
 
   return (
-    <View>
-      <>
-        <Text>Sign up</Text>
+    <>
+      <Text className="text-xl text-white font-bold">Sign up</Text>
+      <View className="flex flex-col w-full gap-2">
+        <Text className="text-white">Email</Text>
         <TextInput
+          className="text-xl p-2 text-white w-full justify-start"
           autoCapitalize="none"
           value={emailAddress}
           placeholder="Enter email"
           onChangeText={(email) => setEmailAddress(email)}
+          placeholderTextColor="white"
+          underlineColorAndroid={"white"}
         />
+        <Text className="text-white">Password</Text>
         <TextInput
+          className="text-xl p-2 text-white w-full justify-start"
           value={password}
           placeholder="Enter password"
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
+          placeholderTextColor="white"
+          underlineColorAndroid={"white"}
         />
-        <Button title="Continue" onPress={onSignUpPress} />
-      </>
-    </View>
+      </View>
+
+      <View>
+        {errors.length > 0 && (
+          <Text className="text-white">
+            {errors.map((e) => e.message).join("\n")}
+          </Text>
+        )}
+      </View>
+      <View className="flex flex-col gap-5">
+        <Button color={"green"} onPress={onSignUpPress} title="Register" />
+        <Text className="text-white">
+          Have an account?{" "}
+          <Link className="font-bold" href={"/(auth)/sign-in"}>
+            Sign In
+          </Link>
+        </Text>
+      </View>
+    </>
   );
 }

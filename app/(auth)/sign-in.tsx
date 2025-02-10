@@ -1,13 +1,15 @@
-import { useSignIn } from "@clerk/clerk-expo";
-import { Link, useRouter } from "expo-router";
+import { isClerkAPIResponseError, useSignIn } from "@clerk/clerk-expo";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { Text, TextInput, Button, View, ImageBackground } from "react-native";
 import React from "react";
+import { ClerkAPIError } from "@clerk/types";
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn();
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = React.useState("");
+  const [errors, setErrors] = React.useState<ClerkAPIError[]>([]);
   const [password, setPassword] = React.useState("");
 
   // Handle the submission of the sign-in form
@@ -32,39 +34,55 @@ export default function Page() {
         console.error(JSON.stringify(signInAttempt, null, 2));
       }
     } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
+      if (isClerkAPIResponseError(err)) setErrors(err.errors);
       console.error(JSON.stringify(err, null, 2));
     }
   }, [isLoaded, emailAddress, password]);
 
+  const navigation = useNavigation();
+
   return (
-    <ImageBackground
-      source={require("../../assets/images/sunrise.png")}
-      imageStyle={{ resizeMode: "cover" }}
-      className="flex-1"
-    >
-      <View className="rounded-lg items-center justify-center my-auto mx-auto bg-slate-600 bg-opacity-70 p-5 gap-3 ">
-        <Text className="text-xl font-bold">FlashAlarm</Text>
+    <>
+      <Text className="text-xl text-white font-bold">Sign in</Text>
+      <View className="flex flex-col w-full gap-2">
+        <Text className="text-white">Email</Text>
         <TextInput
-          className="text-xl p-2"
+          className="text-xl p-2 text-white w-full justify-start"
           autoCapitalize="none"
           value={emailAddress}
           placeholder="Enter email"
           onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+          textContentType="emailAddress"
+          placeholderTextColor="white"
+          underlineColorAndroid={"white"}
         />
+        <Text className="text-white">Password</Text>
         <TextInput
-          className="text-xl p-2"
+          className="text-xl p-2 text-white w-full justify-start"
           value={password}
           placeholder="Enter password"
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
+          placeholderTextColor="white"
+          underlineColorAndroid={"white"}
         />
-        <View className="flex flex-row gap-5">
-          <Button color={"green"} title="Register" onPress={onSignInPress} />
-          <Button title="Sign in" onPress={() => router.navigate("/sign-up")} />
-        </View>
       </View>
-    </ImageBackground>
+      <View>
+        {errors.length > 0 && (
+          <Text className="text-white">
+            {errors.map((e) => e.message).join("\n")}
+          </Text>
+        )}
+      </View>
+      <View className="flex flex-col gap-5">
+        <Button color={"green"} title="Sign In" onPress={onSignInPress} />
+        <Text className="text-white">
+          New to the App?{" "}
+          <Link className="font-bold" href={"/(auth)/sign-up"}>
+            Register here
+          </Link>
+        </Text>
+      </View>
+    </>
   );
 }
