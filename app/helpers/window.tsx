@@ -1,5 +1,4 @@
-import { Slot } from "expo-router";
-import { ImageBackground, View, Image, Text } from "react-native";
+import { View } from "react-native";
 
 import { ReactNode } from "react";
 

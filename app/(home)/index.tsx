@@ -1,10 +1,11 @@
 import { Pressable, Text, View } from "react-native";
 import { useState } from "react";
-import AlarmRow from "../components/AlarmRow";
+import AlarmRow from "../helpers/AlarmRow";
 import { AlarmData, testData, testGroup } from "../_types";
-import GroupRow from "../components/GroupRow";
+import GroupRow from "../helpers/GroupRow";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import React from "react";
+import { router } from "expo-router";
 
 export default function Page() {
   const [alarmList, setAlarmList] = useState<AlarmData[]>(testData);
@@ -14,7 +15,10 @@ export default function Page() {
     <View className="flex flex-col gap-2 w-full px-2">
       <View className="flex flex-row justify-between">
         <Text className="text-xl text-white font-bold">Alarms</Text>
-        <Pressable className="rounded-lg" onPress={() => {}}>
+        <Pressable
+          className="rounded-lg"
+          onPress={() => router.push("/flashcards")}
+        >
           <AntDesign name="plus" size={24} color="white" />
         </Pressable>
       </View>
@@ -32,7 +36,10 @@ export default function Page() {
 
       <View className="flex flex-row justify-between">
         <Text className="text-xl text-white font-bold">Flashcard Groups</Text>
-        <Pressable className="rounded-lg" onPress={() => {}}>
+        <Pressable
+          className="rounded-lg"
+          onPress={() => router.push("/create-alarm")}
+        >
           <AntDesign name="plus" size={24} color="white" />
         </Pressable>
       </View>

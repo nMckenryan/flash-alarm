@@ -1,6 +1,6 @@
-import { isClerkAPIResponseError, useAuth, useSignIn } from "@clerk/clerk-expo";
-import { Link, useNavigation, useRouter } from "expo-router";
-import { Text, TextInput, Button, View, ImageBackground } from "react-native";
+import { isClerkAPIResponseError, useSignIn } from "@clerk/clerk-expo";
+import { Link, useRouter } from "expo-router";
+import { Text, TextInput, Button, View } from "react-native";
 import React from "react";
 import { ClerkAPIError } from "@clerk/types";
 

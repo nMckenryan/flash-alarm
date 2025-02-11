@@ -1,7 +1,7 @@
 import { Slot } from "expo-router";
 import { Stack } from "expo-router/stack";
 import { ImageBackground, Pressable, View, Image, Alert } from "react-native";
-import Window from "../components/window";
+import Window from "../helpers/window";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useAuth } from "@clerk/clerk-expo";
 import { router } from "expo-router";
@@ -26,11 +26,7 @@ export default function Layout() {
     ]);
 
   return (
-    <ImageBackground
-      source={require("../../assets/images/sunrise.png")}
-      imageStyle={{ resizeMode: "cover" }}
-      className="flex-1"
-    >
+    <>
       <View className="justify-between flex flex-row m-5">
         <Image
           className="w-10 h-10"
@@ -43,6 +39,6 @@ export default function Layout() {
       <Window>
         <Slot />
       </Window>
-    </ImageBackground>
+    </>
   );
 }
