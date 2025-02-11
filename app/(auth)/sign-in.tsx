@@ -1,4 +1,4 @@
-import { isClerkAPIResponseError, useSignIn } from "@clerk/clerk-expo";
+import { isClerkAPIResponseError, useAuth, useSignIn } from "@clerk/clerk-expo";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Text, TextInput, Button, View, ImageBackground } from "react-native";
 import React from "react";
@@ -38,9 +38,6 @@ export default function Page() {
       console.error(JSON.stringify(err, null, 2));
     }
   }, [isLoaded, emailAddress, password]);
-
-  const navigation = useNavigation();
-
   return (
     <>
       <Text className="text-xl text-white font-bold">Sign in</Text>

@@ -1,10 +1,30 @@
 import { Slot } from "expo-router";
 import { Stack } from "expo-router/stack";
-import { ImageBackground, Pressable, View, Image } from "react-native";
+import { ImageBackground, Pressable, View, Image, Alert } from "react-native";
 import Window from "../components/window";
 import Entypo from "@expo/vector-icons/Entypo";
+import { useAuth } from "@clerk/clerk-expo";
+import { router } from "expo-router";
 
 export default function Layout() {
+  const auth = useAuth();
+
+  const logoutModal = () =>
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Logout",
+        onPress: () => {
+          auth.signOut();
+          router.replace("/");
+        },
+      },
+    ]);
+
   return (
     <ImageBackground
       source={require("../../assets/images/sunrise.png")}
@@ -16,7 +36,7 @@ export default function Layout() {
           className="w-10 h-10"
           source={require("../../assets/images/favicon-32x32.png")}
         />
-        <Pressable className="rounded-lg" onPress={() => {}}>
+        <Pressable className="rounded-lg" onPress={logoutModal}>
           <Entypo name="log-out" size={32} color="white" />
         </Pressable>
       </View>
