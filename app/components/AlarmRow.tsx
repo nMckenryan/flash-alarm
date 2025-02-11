@@ -1,7 +1,7 @@
 import { Pressable, Text, View } from "react-native";
 import ToggleSwitch from "toggle-switch-react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { AlarmData } from "../types";
+import { AlarmData } from "../_types";
 import { useState } from "react";
 
 export default function AlarmRow({ alarmData }: { alarmData: AlarmData }) {

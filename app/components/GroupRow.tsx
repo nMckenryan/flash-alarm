@@ -1,7 +1,7 @@
 import { Pressable, Text, View } from "react-native";
 import ToggleSwitch from "toggle-switch-react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { CardGroup } from "../types";
+import { CardGroup } from "../_types";
 import { useState } from "react";
 
 export default function GroupRow({ groupData }: { groupData: CardGroup }) {

@@ -1,16 +1,19 @@
 import { Button, Pressable, Text, View } from "react-native";
 import { useState } from "react";
 import AlarmRow from "../components/AlarmRow";
-import { AlarmData, testData, testGroup } from "../types";
+import { AlarmData, testData, testGroup } from "../_types";
 import GroupRow from "../components/GroupRow";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import React from "react";
+import AlarmComponent from "../components/AlarmSetter";
 
 export default function Page() {
   const [alarmList, setAlarmList] = useState<AlarmData[]>(testData);
   const tg = [testGroup];
 
   return (
-    <View className="w-full px-2">
+    <View className="flex flex-col gap-2 w-full px-2">
       <View className="flex flex-row justify-between">
         <Text className="text-xl text-white font-bold">Alarms</Text>
         <Pressable className="rounded-lg" onPress={() => {}}>
@@ -29,7 +32,7 @@ export default function Page() {
         )}
       </View>
 
-      <br />
+      <AlarmComponent />
 
       <View className="flex flex-row justify-between">
         <Text className="text-xl text-white font-bold">Flashcard Groups</Text>
